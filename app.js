@@ -8,3 +8,66 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
+
+var scores, roundScore, activePlayer; 
+
+scores = [0,0];
+roundScore = 0; 
+activePlayer = 0;  
+
+document.querySelector('.dice').style.display = 'none';
+
+//sets everything to 0
+document.getElementById('score-0').textContent = '0'; 
+document.getElementById('score-1').textContent = '0'; 
+document.getElementById('current-0').textContent = '0'; 
+document.getElementById('current-1').textContent = '0'; 
+
+document.querySelector('.btn-roll').addEventListener('click', function(){
+    //1. random number
+        /*create a random number and make it even*/
+        var dice = Math.floor(Math.random() *6 ) + 1;
+
+    //2. Display Result 
+    var diceDOM = document.querySelector('.dice');
+    diceDOM.style.display = 'block';
+    diceDOM.src = 'dice-' + dice + '.png';
+
+    //3. Update the round score only IF the rolled number was NOT a 1 (which means you lose)
+    if(dice !==1 ){
+        //add score
+        roundScore += dice;
+        document.querySelector('#current-' + activePlayer).textContent = roundScore; 
+    } else {
+        //next player 
+        //turnary operator
+        // activePlayer === 0 ? activePlayer = 1 : activePlayer = 0; 
+
+        //will roll until you hit 1, then it'll be the second player!
+        if(activePlayer ===0) {
+            activePlayer = 1; 
+        }else {
+            activePlayer = 0; 
+            
+        }
+        //reset to 0 
+        roundScore = 0;
+
+        document.getElementById('current-0').textContent= '0';        document.getElementById('current-1').textContent= '0';
+
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+
+        // document.querySelector('.player-0-panel').classList.remove('active');
+        // document.querySelector('.player-1-panel').classList.add('active');
+
+        document.querySelector('.dice').style.display= 'none';
+    }
+
+});
+
+
+// document.querySelector('#current-' + activePlayer).textContent = '<em>' + dice + '</em>';
+
+// var x = document.querySelector('#score-0').textContent;
+// console.log(x);
